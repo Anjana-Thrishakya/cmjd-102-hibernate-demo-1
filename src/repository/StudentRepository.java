@@ -1,5 +1,7 @@
 package repository;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -21,7 +23,33 @@ public class StudentRepository {
             transaction.rollback();
             return - 1;
         }
-        
     }
 
+    public StudentEntity getStudent(Integer id) {
+        StudentEntity studentEntity = session.get(StudentEntity.class, id);
+        return studentEntity;
+    }
+
+    public void updateStudent(StudentEntity studentEntity){
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.update(studentEntity);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw e;
+        }
+    }
+
+    public void deleteStudent(StudentEntity studentEntity){
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.delete(studentEntity);
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw e;
+        }
+    }
+   
 }
